@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    image: node:16-alpine
+    container_name: api-gateway
+    working_dir: /app
+    volumes:
+      - ./api-gateway:/app
+      - ./logs/api-gateway:/app/logs        # Logs persistentes do gateway
+    command: ["npm", "start"]
+    restart: always
+    ports:
+      - "443:443"
+    depends_on:
+      - auth-service
+      - policy-service
+      - resource-service
+    environment:
+      - NODE_ENV=production
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  auth-service:
+    image: node:16-alpine
+    container_name: auth-service
+    working_dir: /app
+    volumes:
+      - ./auth-service:/app
+      - ./logs/auth-service:/app/logs        # Logs persistentes da autenticação
+    command: ["npm", "start"]
+    restart: always
+    expose:
+      - "3001"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  policy-service:
+    image: node:16-alpine
+    container_name: policy-service
+    working_dir: /app
+    volumes:
+      - ./policy-service:/app
+      - ./logs/policy-service:/app/logs      # Logs persistentes do policy
+    command: ["npm", "start"]
+    restart: always
+    expose:
+      - "3002"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  resource-service:
+    image: node:16-alpine
+    container_name: resource-service
+    working_dir: /app
+    volumes:
+      - ./resource-service:/app
+      - ./logs/resource-service:/app/logs    # Logs persistentes do resource
+      - ./uploads/resource-service:/app/uploads  # Persistência para uploads (se usar)
+    command: ["npm", "start"]
+    restart: always
+    expose:
+      - "3003"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db        # Persistência do banco de dados
+      - ./mongo-config:/data/configdb   # Persistência de configurações do Mongo (opcional)
+    environment:
+      - MONGO_INITDB_DATABASE=ztadb
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+
+  monitoring:
+    image: node:16-alpine
+    container_name: monitoring
+    working_dir: /app
+    volumes:
+      - ./monitoring:/app
+      - ./logs/monitoring:/app/logs        # Logs persistentes do monitoring
+    command: ["npm", "start"]
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+
+networks:
+  default:
+    name: zta-network
+
+volumes:
+  mongo-data:
+  mongo-config:
