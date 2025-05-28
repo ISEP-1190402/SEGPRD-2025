@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   api-gateway:
@@ -7,7 +7,7 @@ services:
     working_dir: /app
     volumes:
       - ./api-gateway:/app
-      - ./logs/api-gateway:/app/logs        # Logs persistentes do gateway
+      - ./logs/api-gateway:/app/logs # Logs persistentes do gateway
     command: ["npm", "start"]
     restart: always
     ports:
@@ -21,7 +21,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   auth-service:
@@ -30,11 +30,13 @@ services:
     working_dir: /app
     volumes:
       - ./auth-service:/app
-      - ./logs/auth-service:/app/logs        # Logs persistentes da autenticação
+      - ./logs/auth-service:/app/logs # Logs persistentes da autenticação
     command: ["npm", "start"]
     restart: always
     expose:
       - "3001"
+    ports:
+      - "3005:3001"
     depends_on:
       - mongodb
     environment:
@@ -43,7 +45,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   policy-service:
@@ -52,7 +54,7 @@ services:
     working_dir: /app
     volumes:
       - ./policy-service:/app
-      - ./logs/policy-service:/app/logs      # Logs persistentes do policy
+      - ./logs/policy-service:/app/logs # Logs persistentes do policy
     command: ["npm", "start"]
     restart: always
     expose:
@@ -65,7 +67,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   resource-service:
@@ -74,8 +76,8 @@ services:
     working_dir: /app
     volumes:
       - ./resource-service:/app
-      - ./logs/resource-service:/app/logs    # Logs persistentes do resource
-      - ./uploads/resource-service:/app/uploads  # Persistência para uploads (se usar)
+      - ./logs/resource-service:/app/logs # Logs persistentes do resource
+      - ./uploads/resource-service:/app/uploads # Persistência para uploads (se usar)
     command: ["npm", "start"]
     restart: always
     expose:
@@ -88,7 +90,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   mongodb:
@@ -98,14 +100,14 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo-data:/data/db        # Persistência do banco de dados
-      - ./mongo-config:/data/configdb   # Persistência de configurações do Mongo (opcional)
+      - ./mongo-data:/data/db # Persistência do banco de dados
+      - ./mongo-config:/data/configdb # Persistência de configurações do Mongo (opcional)
     environment:
       - MONGO_INITDB_DATABASE=ztadb
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: "1.0"
           memory: 1G
 
   monitoring:
@@ -114,7 +116,7 @@ services:
     working_dir: /app
     volumes:
       - ./monitoring:/app
-      - ./logs/monitoring:/app/logs        # Logs persistentes do monitoring
+      - ./logs/monitoring:/app/logs # Logs persistentes do monitoring
     command: ["npm", "start"]
     restart: always
     ports:
@@ -127,7 +129,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.25'
+          cpus: "0.25"
           memory: 256M
 
 networks:
