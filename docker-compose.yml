@@ -1,6 +1,18 @@
 version: "3.8"
 
 services:
+  openresty-gateway:
+    image: openresty/openresty:alpine
+    container_name: openresty-gateway
+    volumes:
+      - ./openresty/conf:/usr/local/openresty/nginx/conf
+      - ./openresty/lua:/usr/local/openresty/lualib
+      - ./openresty/certs:/etc/nginx/certs
+    ports:
+      - "443:443"
+    depends_on:
+      - api-gateway
+
   api-gateway:
     image: node:16-alpine
     container_name: api-gateway
@@ -10,8 +22,8 @@ services:
       - ./logs/api-gateway:/app/logs # Logs persistentes do gateway
     command: ["npm", "start"]
     restart: always
-    ports:
-      - "443:443"
+    expose:
+      - "3000"
     depends_on:
       - auth-service
       - policy-service
