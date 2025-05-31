@@ -1,17 +1,33 @@
-version: '3.8'
+version: "3.8"
 
 services:
+  openresty-gateway:
+    image: openresty/openresty:alpine
+    container_name: openresty-gateway
+    volumes:
+      - ./openresty/conf:/usr/local/openresty/nginx/conf
+      - ./openresty/lua:/usr/local/openresty/lualib
+      - ./openresty/certs:/etc/nginx/certs
+    ports:
+      - "443:443"
+    depends_on:
+      - api-gateway
+
   api-gateway:
     image: node:16-alpine
     container_name: api-gateway
     working_dir: /app
     volumes:
       - ./api-gateway:/app
+<<<<<<< HEAD
       - ./logs/api-gateway:/app/logs
+=======
+      - ./logs/api-gateway:/app/logs # Logs persistentes do gateway
+>>>>>>> auth-service
     command: ["npm", "start"]
     restart: always
-    ports:
-      - "443:443"
+    expose:
+      - "3000"
     depends_on:
       - auth-service
       - policy-service
@@ -21,7 +37,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   auth-service:
@@ -30,11 +46,17 @@ services:
     working_dir: /app
     volumes:
       - ./auth-service:/app
+<<<<<<< HEAD
       - ./logs/auth-service:/app/logs
+=======
+      - ./logs/auth-service:/app/logs # Logs persistentes da autenticação
+>>>>>>> auth-service
     command: ["npm", "start"]
     restart: always
     expose:
       - "3001"
+    ports:
+      - "4000:3001"
     depends_on:
       - mongodb
     environment:
@@ -43,7 +65,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   policy-service:
@@ -52,7 +74,11 @@ services:
     working_dir: /app
     volumes:
       - ./policy-service:/app
+<<<<<<< HEAD
       - ./logs/policy-service:/app/logs
+=======
+      - ./logs/policy-service:/app/logs # Logs persistentes do policy
+>>>>>>> auth-service
     command: ["npm", "start"]
     restart: always
     expose:
@@ -65,7 +91,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   resource-service:
@@ -74,8 +100,13 @@ services:
     working_dir: /app
     volumes:
       - ./resource-service:/app
+<<<<<<< HEAD
       - ./logs/resource-service:/app/logs
       - ./uploads/resource-service:/app/uploads
+=======
+      - ./logs/resource-service:/app/logs # Logs persistentes do resource
+      - ./uploads/resource-service:/app/uploads # Persistência para uploads (se usar)
+>>>>>>> auth-service
     command: ["npm", "start"]
     restart: always
     expose:
@@ -88,7 +119,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   mongodb:
@@ -97,13 +128,27 @@ services:
     restart: always
     ports:
       - "27017:27017"
+<<<<<<< HEAD
+=======
+    volumes:
+      - ./mongo-data:/data/db # Persistência do banco de dados
+      - ./mongo-config:/data/configdb # Persistência de configurações do Mongo (opcional)
+>>>>>>> auth-service
     environment:
       - MONGO_INITDB_ROOT_USERNAME=adminroot
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
       - MONGO_INITDB_DATABASE=ztadb
+<<<<<<< HEAD
     volumes:
       - ./mongo-data:/data/db
       - ./mongo-init:/docker-entrypoint-initdb.d
+=======
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+>>>>>>> auth-service
 
   monitoring:
     image: node:16-alpine
@@ -111,7 +156,11 @@ services:
     working_dir: /app
     volumes:
       - ./monitoring:/app
+<<<<<<< HEAD
       - ./logs/monitoring:/app/logs
+=======
+      - ./logs/monitoring:/app/logs # Logs persistentes do monitoring
+>>>>>>> auth-service
     command: ["npm", "start"]
     restart: always
     ports:
@@ -124,7 +173,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.25'
+          cpus: "0.25"
           memory: 256M
 
 networks:
