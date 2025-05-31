@@ -19,7 +19,11 @@ services:
     working_dir: /app
     volumes:
       - ./api-gateway:/app
+<<<<<<< HEAD
       - ./logs/api-gateway:/app/logs # Logs persistentes do gateway
+=======
+      - ./logs/api-gateway:/app/logs
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
     command: ["npm", "start"]
     restart: always
     expose:
@@ -42,7 +46,11 @@ services:
     working_dir: /app
     volumes:
       - ./auth-service:/app
+<<<<<<< HEAD
       - ./logs/auth-service:/app/logs # Logs persistentes da autenticação
+=======
+      - ./logs/auth-service:/app/logs
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
     command: ["npm", "start"]
     restart: always
     expose:
@@ -53,7 +61,7 @@ services:
       - mongodb
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+      - MONGODB_URI=mongodb://university_user:securepass123@mongodb:27017/ztadb?authSource=ztadb
     deploy:
       resources:
         limits:
@@ -66,7 +74,11 @@ services:
     working_dir: /app
     volumes:
       - ./policy-service:/app
+<<<<<<< HEAD
       - ./logs/policy-service:/app/logs # Logs persistentes do policy
+=======
+      - ./logs/policy-service:/app/logs
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
     command: ["npm", "start"]
     restart: always
     expose:
@@ -75,7 +87,7 @@ services:
       - mongodb
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+      - MONGODB_URI=mongodb://university_user:securepass123@mongodb:27017/ztadb?authSource=ztadb
     deploy:
       resources:
         limits:
@@ -88,8 +100,13 @@ services:
     working_dir: /app
     volumes:
       - ./resource-service:/app
+<<<<<<< HEAD
       - ./logs/resource-service:/app/logs # Logs persistentes do resource
       - ./uploads/resource-service:/app/uploads # Persistência para uploads (se usar)
+=======
+      - ./logs/resource-service:/app/logs
+      - ./uploads/resource-service:/app/uploads
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
     command: ["npm", "start"]
     restart: always
     expose:
@@ -98,7 +115,7 @@ services:
       - mongodb
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+      - MONGODB_URI=mongodb://university_user:securepass123@mongodb:27017/ztadb?authSource=ztadb
     deploy:
       resources:
         limits:
@@ -111,16 +128,27 @@ services:
     restart: always
     ports:
       - "27017:27017"
+<<<<<<< HEAD
     volumes:
       - ./mongo-data:/data/db # Persistência do banco de dados
       - ./mongo-config:/data/configdb # Persistência de configurações do Mongo (opcional)
+=======
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
     environment:
+      - MONGO_INITDB_ROOT_USERNAME=adminroot
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
       - MONGO_INITDB_DATABASE=ztadb
+<<<<<<< HEAD
     deploy:
       resources:
         limits:
           cpus: "1.0"
           memory: 1G
+=======
+    volumes:
+      - ./mongo-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
 
   monitoring:
     image: node:16-alpine
@@ -128,7 +156,11 @@ services:
     working_dir: /app
     volumes:
       - ./monitoring:/app
+<<<<<<< HEAD
       - ./logs/monitoring:/app/logs # Logs persistentes do monitoring
+=======
+      - ./logs/monitoring:/app/logs
+>>>>>>> 51912bbe03af00b07a31f77a28dc0c52a544be47
     command: ["npm", "start"]
     restart: always
     ports:
@@ -137,7 +169,7 @@ services:
       - mongodb
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/ztadb
+      - MONGODB_URI=mongodb://university_user:securepass123@mongodb:27017/ztadb?authSource=ztadb
     deploy:
       resources:
         limits:
