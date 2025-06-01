@@ -29,4 +29,6 @@ RUN curl -L -O https://luarocks.org/releases/luarocks-3.9.2.tar.gz \
 ENV PATH="/usr/local/openresty/luajit/bin:${PATH}"
 
 RUN git clone https://github.com/SkyLothar/lua-resty-jwt.git /usr/local/openresty/lualib/lua-resty-jwt
+RUN git clone https://github.com/ledgetech/lua-resty-http.git /usr/local/openresty/lualib/lua-resty-http
+
 

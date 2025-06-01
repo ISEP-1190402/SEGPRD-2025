@@ -73,8 +73,8 @@ services:
       - ./logs/policy-service:/app/logs # Logs persistentes do policy
     command: ["npm", "start"]
     restart: always
-    expose:
-      - "3002"
+    ports:
+      - "3002:3002"
     depends_on:
       - mongodb
     environment:
@@ -116,7 +116,8 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo-data:/data/db # Persistência do banco de dados
+      - ./mongo-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
       - ./mongo-config:/data/configdb # Persistência de configurações do Mongo (opcional)
     environment:
       - MONGO_INITDB_ROOT_USERNAME=adminroot
