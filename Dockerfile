@@ -28,7 +28,13 @@ RUN curl -L -O https://luarocks.org/releases/luarocks-3.9.2.tar.gz \
 
 ENV PATH="/usr/local/openresty/luajit/bin:${PATH}"
 
-RUN git clone https://github.com/SkyLothar/lua-resty-jwt.git /usr/local/openresty/lualib/lua-resty-jwt
-RUN git clone https://github.com/ledgetech/lua-resty-http.git /usr/local/openresty/lualib/lua-resty-http
+# Install lua-resty-openssl
+RUN git clone https://github.com/fffonion/lua-resty-openssl.git /usr/local/openresty/lualib/lua-resty-openssl && \
+    cd /usr/local/openresty/lualib/lua-resty-openssl && \
+    cp -r lib/resty /usr/local/openresty/lualib/
 
+# Install lua-resty-http
+RUN git clone https://github.com/ledgetech/lua-resty-http.git /usr/local/openresty/lualib/lua-resty-http && \
+    cd /usr/local/openresty/lualib/lua-resty-http && \
+    cp -r lib/resty /usr/local/openresty/lualib/
 
