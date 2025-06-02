@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Policy = require("../models/Policy");
 
+const {
+  policyChecks,
+  accessDecisions,
+  policyEvaluationDuration,
+} = require("./metrics");
+
 router.post("/policy/evaluate", async (req, res) => {
   const { role, permission } = req.body;
 

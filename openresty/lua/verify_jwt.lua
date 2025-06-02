@@ -29,6 +29,11 @@ end
 local header = cjson.decode(ngx.decode_base64(header_b64))
 local payload = cjson.decode(ngx.decode_base64(payload_b64))
 local signature = ngx.decode_base64(signature_b64)
+if payload.exp and payload.exp < ngx.time() then
+    ngx.status = ngx.HTTP_UNAUTHORIZED
+    ngx.say("JWT has expired")
+    return ngx.exit(ngx.HTTP_UNAUTHORIZED)
+end
 
 -- HMAC-SHA256 Verification
 local secret = "your_jwt_secret"

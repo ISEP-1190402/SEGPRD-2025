@@ -75,6 +75,8 @@ services:
     restart: always
     ports:
       - "3002:3002"
+    expose:
+      - "3002"
     depends_on:
       - mongodb
     environment:
@@ -129,27 +131,22 @@ services:
           cpus: "1.0"
           memory: 1G
 
-  monitoring:
-    image: node:16-alpine
-    container_name: monitoring
-    working_dir: /app
-    volumes:
-      - ./monitoring:/app
-      - ./logs/monitoring:/app/logs # Logs persistentes do monitoring
-    command: ["npm", "start"]
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
     restart: always
     ports:
-      - "8080:8080"
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
     depends_on:
-      - mongodb
-    environment:
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://university_user:securepass123@mongodb:27017/ztadb?authSource=ztadb
-    deploy:
-      resources:
-        limits:
-          cpus: "0.25"
-          memory: 256M
+      - prometheus
 
 networks:
   default:

@@ -6,6 +6,9 @@ const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
 require("dotenv").config();
 
+const { loginAttempts } = require("./metrics");
+const { jwtVerifications, deniedRequests } = require("./metrics");
+
 const app = express();
 app.use(express.json());
 
@@ -65,6 +68,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+    loginAttempts.inc();
     if (!username || !password)
       return res.status(400).json({ message: "Missing fields" });
 
@@ -159,13 +163,20 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Extract token after "Bearer"
 
-  if (!token) return res.status(401).json({ message: "Access token missing" });
-
+  if (!token) {
+    jwtVerifications.inc({ status: "missing" });
+    deniedRequests.inc({ reason: "unauthorized" });
+    return res.status(401).json({ message: "Access token missing" });
+  }
   jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err)
+    if (err) {
+      jwtVerifications.inc({ status: "invalid" });
+      deniedRequests.inc({ reason: "invalid_token" });
       return res.status(403).json({ message: "Invalid or expired token" });
+    }
 
     // Attach user info from token payload to request object for use in routes
+    jwtVerifications.inc({ status: "valid" });
     req.user = user;
     next();
   });
