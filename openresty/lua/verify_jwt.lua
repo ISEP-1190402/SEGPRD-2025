@@ -31,14 +31,31 @@ local payload = cjson.decode(ngx.decode_base64(payload_b64))
 local signature = ngx.decode_base64(signature_b64)
 
 -- HMAC-SHA256 Verification
-local secret = "your-secret-key"
+local secret = "your_jwt_secret"
 local signing_input = header_b64 .. "." .. payload_b64
 
 local h = hmac.new(secret, "sha256")
 h:update(signing_input)
 local expected_sig = h:final()
 
-if expected_sig ~= signature then
+local function base64url_encode(data)
+    return ngx.encode_base64(data)
+        :gsub("+", "-")
+        :gsub("/", "_")
+        :gsub("=", "")
+end
+
+local function base64url_decode(data)
+    data = data:gsub("-", "+"):gsub("_", "/")
+    local padding = 4 - (#data % 4)
+    if padding < 4 then
+        data = data .. string.rep("=", padding)
+    end
+    return ngx.decode_base64(data)
+end
+
+local expected_sig_b64url = base64url_encode(expected_sig)
+if expected_sig_b64url ~= signature_b64 then
     ngx.status = ngx.HTTP_UNAUTHORIZED
     ngx.say("Invalid JWT signature")
     return ngx.exit(ngx.HTTP_UNAUTHORIZED)
@@ -49,7 +66,8 @@ local permission_map = {
     ["/grades:GET"] = "view:grade",
     ["/grades:POST"] = "create:grade",
     ["/materials:GET"] = "view:material",
-    ["/forms:DELETE"] = "manage:forms"
+    ["/forms:DELETE"] = "manage:forms",
+    ["/announcements:GET"] = "view:announcement"
 }
   
 local path = ngx.var.uri
@@ -63,10 +81,10 @@ end
 
 -- Send request to policy service
 local httpc = http.new()
-local res, err = httpc:request_uri("http://localhost:3002/policy/evaluate", {
+local res, err = httpc:request_uri("http://172.18.0.5:3002/policy/evaluate", {
   method = "POST",
   body = cjson.encode({
-    role = decoded_jwt.payload.role,
+    role = payload.role,
     permission = permission
   }),
   headers = {
