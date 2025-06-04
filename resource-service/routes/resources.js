@@ -96,24 +96,24 @@ router.post('/forms', async (req, res) => {
   res.status(201).json(resource);
 });
 
-/* ========== VERSIONAMENTO ========== */
+/* ========== VERSIONING ========== */
 
 // PUT /resources/:id
 router.put('/:id', async (req, res) => {
   try {
-    // 1. Buscar o recurso original
+    // 1. Fetch the original resource
     const resource = await Resource.findById(req.params.id);
     if (!resource) return res.status(404).json({ error: 'Resource not found' });
 
-    // 2. Buscar a versão mais recente deste recurso
+    // 2. Fetch the latest version of this resource
     const lastVersion = await ResourceVersion.find({ resourceId: resource._id })
       .sort({ version: -1 })
       .limit(1);
     const newVersionNumber = lastVersion.length > 0 ? lastVersion[0].version + 1 : 1;
 
-    // 3. Guardar versão antiga
+    // 3. Save old version
     const versionData = resource.toObject();
-    delete versionData._id; // <<--- REMOVE O _id !!!
+    delete versionData._id;
     await ResourceVersion.create({
       resourceId: resource._id,
       ...versionData,
@@ -121,7 +121,7 @@ router.put('/:id', async (req, res) => {
       updatedAt: new Date()
     });
 
-    // 4. Atualizar o recurso atual
+    // 4. Update the current resource
     Object.assign(resource, req.body, { lastUpdated: new Date() });
     await resource.save();
 
