@@ -1,0 +1,446 @@
+{
+	"info": {
+		"_postman_id": "45616189-119a81d9-9309-4df5-bb2f-dcb563d4970b",
+		"name": "Resource Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Materials",
+			"item": [
+				{
+					"name": "Paginated Materials - OK",
+					"id": "45616189-8040da61-3d82-4157-9cc5-3401eae504e1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/materials?page=1&limit=5",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"materials"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Material - OK",
+					"id": "45616189-8c2bb286-91bc-4989-b69d-39fc4058ca3e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Zero Trust Lesson\",\r\n  \"course\": \"SEG101\",\r\n  \"file\": \"zero_trust_intro.pdf\",\r\n  \"access\": [\"student\", \"professor\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/materials",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"materials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Material - NOK",
+					"id": "45616189-8e990bbc-e027-46d6-b4e0-51a2c1b018f7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Zero Trust Lesson\",\r\n  \"course\": \"SEG101\",\r\n  \"file\": \"zero_trust_intro.pdf\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/materials",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"materials"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45616189-912a35dc-e91a-41b4-b5b0-211da9af7f5f"
+		},
+		{
+			"name": "Grades",
+			"item": [
+				{
+					"name": "Create New Grade - OK",
+					"id": "45616189-88fe4cc7-eb0e-4aa4-8114-cce96d6f3688",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": \"stu001\",\r\n  \"course\": \"SEG101\",\r\n  \"grade\": 17\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/grades",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Grade - NOK",
+					"id": "45616189-1c03746b-7b5d-4bd9-b7f6-3d1e6ce20ef8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"course\": \"SEG101\",\r\n  \"grade\": 17\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/grades",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"grades"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45616189-d146eebe-f7c0-4ce8-bf56-b0946139eab5"
+		},
+		{
+			"name": "Announcements",
+			"item": [
+				{
+					"name": "Announcements",
+					"id": "45616189-9d96b56d-b7be-4405-b506-847f2b4d491f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/announcements",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Announcement - OK",
+					"id": "45616189-6da6938c-b08a-4dd1-a857-d9a1eb1bf7f5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Welcome!\",\r\n  \"content\": \"Academic year starts on the 18th.\",\r\n  \"access\": [\"student\", \"professor\", \"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/announcements",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Announcement - NOK",
+					"id": "45616189-61257d65-14d5-41e3-b287-e9201909b968",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"content\": \"Academic year starts on the 18th.\",\r\n  \"access\": [\"student\", \"professor\", \"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/announcements",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45616189-af8d0946-02cb-4ea5-86d8-895414863964"
+		},
+		{
+			"name": "Forms",
+			"item": [
+				{
+					"name": "Forms",
+					"id": "45616189-cc8c4f6f-1dc8-4a90-93a6-f6394734a4a0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/forms",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"forms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Form - OK",
+					"id": "45616189-a054438e-1dc5-46f7-8444-8def13b93d19",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Reimbursement Request\",\r\n  \"formUrl\": \"form_reimbursement.pdf\",\r\n  \"access\": [\"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/forms",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"forms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Form - NOK",
+					"id": "45616189-e3242714-1928-4218-9fec-04835aeb99ad",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Reimbursement Request\",\r\n  \"access\": [\"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/forms",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"forms"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45616189-575b13ac-45f4-4115-9fbf-0d076c5c8780"
+		},
+		{
+			"name": "Resource",
+			"item": [
+				{
+					"name": "Get resource before Update",
+					"id": "45616189-2cffe67e-198c-49ca-99fd-0af30a91743b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/{{ID_RESOURCE_TO_UPDATE}}",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"{{ID_RESOURCE_TO_UPDATE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing resource with versioning",
+					"id": "45616189-a63f73b7-44b6-44c4-9555-ebb4b71b1e7b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Lecture 0: Topic 1 (Updated)\",\r\n  \"course\": \"CSE101\",\r\n  \"file\": \"lecture1_topic1_v2.pdf\",\r\n  \"access\": [\"student\", \"professor\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/{{ID_RESOURCE_TO_UPDATE}}",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"{{ID_RESOURCE_TO_UPDATE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get resource After Update",
+					"id": "45616189-6ef8d975-0e58-4299-9c14-e8c9a337633e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/{{ID_RESOURCE_TO_UPDATE}}",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"{{ID_RESOURCE_TO_UPDATE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Resource Versions",
+					"id": "45616189-4eab851a-7a32-4686-bb6f-452610b22337",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/{{ID_RESOURCE_TO_UPDATE}}/versions",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"{{ID_RESOURCE_TO_UPDATE}}",
+								"versions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45616189-670ea137-59db-4aea-96a7-7baa392abee4"
+		}
+	]
+}
