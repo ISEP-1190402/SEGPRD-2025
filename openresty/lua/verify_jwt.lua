@@ -1,5 +1,9 @@
-local jwt = require "resty.jwt"
+local base64 = require "ngx.base64"
+local cjson = require "cjson"
+local hmac = require "resty.openssl.hmac"
+local http = require "resty.http"
 
+-- Extract JWT
 local token = ngx.var.http_authorization
 if not token then
     ngx.status = ngx.HTTP_UNAUTHORIZED
@@ -7,10 +11,95 @@ if not token then
     return ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
-local jwt_obj = jwt:verify("your-secret-key", token:sub(8)) -- remove "Bearer "
-
-if not jwt_obj.verified then
+token = token:match("Bearer%s+(.+)")
+if not token then
     ngx.status = ngx.HTTP_UNAUTHORIZED
-    ngx.say("Invalid JWT: " .. jwt_obj.reason)
+    ngx.say("Malformed Authorization header")
     return ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
+
+-- Split JWT
+local header_b64, payload_b64, signature_b64 = token:match("([^%.]+)%.([^%.]+)%.([^%.]+)")
+if not (header_b64 and payload_b64 and signature_b64) then
+    ngx.status = ngx.HTTP_UNAUTHORIZED
+    ngx.say("Invalid JWT format")
+    return ngx.exit(ngx.HTTP_UNAUTHORIZED)
+end
+
+local header = cjson.decode(ngx.decode_base64(header_b64))
+local payload = cjson.decode(ngx.decode_base64(payload_b64))
+local signature = ngx.decode_base64(signature_b64)
+
+-- HMAC-SHA256 Verification
+local secret = "your_jwt_secret"
+local signing_input = header_b64 .. "." .. payload_b64
+
+local h = hmac.new(secret, "sha256")
+h:update(signing_input)
+local expected_sig = h:final()
+
+local function base64url_encode(data)
+    return ngx.encode_base64(data)
+        :gsub("+", "-")
+        :gsub("/", "_")
+        :gsub("=", "")
+end
+
+local function base64url_decode(data)
+    data = data:gsub("-", "+"):gsub("_", "/")
+    local padding = 4 - (#data % 4)
+    if padding < 4 then
+        data = data .. string.rep("=", padding)
+    end
+    return ngx.decode_base64(data)
+end
+
+local expected_sig_b64url = base64url_encode(expected_sig)
+if expected_sig_b64url ~= signature_b64 then
+    ngx.status = ngx.HTTP_UNAUTHORIZED
+    ngx.say("Invalid JWT signature")
+    return ngx.exit(ngx.HTTP_UNAUTHORIZED)
+end
+
+-- Authorization Logic
+local permission_map = {
+    ["/grades:GET"] = "view:grade",
+    ["/grades:POST"] = "create:grade",
+    ["/materials:GET"] = "view:material",
+    ["/forms:DELETE"] = "manage:forms",
+    ["/announcements:GET"] = "view:announcement"
+}
+  
+local path = ngx.var.uri
+local method = ngx.req.get_method()
+local permission = permission_map[path .. ":" .. method]
+
+if not permission then
+    return ngx.exit(ngx.HTTP_FORBIDDEN)
+end
+
+
+-- Send request to policy service
+local httpc = http.new()
+local res, err = httpc:request_uri("http://172.18.0.5:3002/policy/evaluate", {
+  method = "POST",
+  body = cjson.encode({
+    role = payload.role,
+    permission = permission
+  }),
+  headers = {
+    ["Content-Type"] = "application/json"
+  }
+})
+
+
+if not res then
+    ngx.log(ngx.ERR, "Policy service error: ", err)
+    return ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+end
+  
+local body = cjson.decode(res.body)
+if not body.allowed then
+    return ngx.exit(ngx.HTTP_FORBIDDEN)
+end
+
