@@ -1,0 +1,15 @@
+# Packages
+mongo-data/
+
+# IDE settings
+.vscode/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.log

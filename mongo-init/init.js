@@ -135,6 +135,7 @@ db.policies.insertMany([
     role: "professor",
     permissions: [
       "view:material",
+      "create:material",
       "create:grade",
       "view:grade",
       "view:announcement",
@@ -142,6 +143,6 @@ db.policies.insertMany([
   },
   {
     role: "admin",
-    permissions: ["manage:forms", "view:announcement"],
+    permissions: ["manage:forms", "create:announcement", "view:announcement"],
   },
 ]);

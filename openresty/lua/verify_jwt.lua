@@ -68,11 +68,15 @@ end
 
 -- Authorization Logic
 local permission_map = {
-    ["/grades:GET"] = "view:grade",
-    ["/grades:POST"] = "create:grade",
-    ["/materials:GET"] = "view:material",
-    ["/forms:DELETE"] = "manage:forms",
-    ["/announcements:GET"] = "view:announcement"
+    ["/resources/grades:GET"] = "view:grade",
+    ["/resources/grades:POST"] = "create:grade",
+    ["/resources/materials:GET"] = "view:material",
+    ["/resources/materials:POST"] = "create:material",
+    ["/resources/forms:GET"] = "manage:forms",
+    ["/resources/forms:POST"] = "manage:forms",
+    ["/resources/forms:DELETE"] = "manage:forms",
+    ["/resources/announcements:POST"] = "create:announcement",
+    ["/resources/announcements:GET"] = "view:announcement"
 }
   
 local path = ngx.var.uri
@@ -83,10 +87,15 @@ if not permission then
     return ngx.exit(ngx.HTTP_FORBIDDEN)
 end
 
+-- Always read body for POST/PUT
+if ngx.req.get_method() ~= "GET" then
+    ngx.req.read_body()
+end
 
 -- Send request to policy service
 local httpc = http.new()
-local res, err = httpc:request_uri("http://172.18.0.5:3002/policy/evaluate", {
+ngx.log(ngx.ERR, "Sending to policy service: role=", payload.role, " permission=", permission)
+local res, err = httpc:request_uri("http://172.18.0.3:3002/policy/evaluate", {
   method = "POST",
   body = cjson.encode({
     role = payload.role,
