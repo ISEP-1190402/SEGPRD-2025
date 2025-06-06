@@ -116,7 +116,6 @@ services:
     volumes:
       - ./mongo-data:/data/db
       - ./mongo-init:/docker-entrypoint-initdb.d
-      - ./mongo-config:/data/configdb # Persistência de configurações do Mongo (opcional)
     environment:
       - MONGO_INITDB_ROOT_USERNAME=adminroot
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
