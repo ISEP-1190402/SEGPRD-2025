@@ -13,19 +13,13 @@ const loginAttempts = new client.Counter({
 const jwtVerifications = new client.Counter({
   name: "jwt_verifications_total",
   help: "Total number of JWT verifications",
-  labelNames: ["result"], // valid / invalid
+  labelNames: ["result"], // valid / invalid / missing
 });
 
 const deniedRequests = new client.Counter({
   name: "access_denied_total",
   help: "Number of denied access requests",
-  labelNames: ["reason"], // unauthorized / forbidden / invalid_signature
-});
-
-// Expose metrics endpoint
-app.get("/metrics", async (req, res) => {
-  res.set("Content-Type", client.register.contentType);
-  res.end(await client.register.metrics());
+  labelNames: ["reason"], // unauthorized / forbidden / invalid_token
 });
 
 module.exports = { loginAttempts, jwtVerifications, deniedRequests };

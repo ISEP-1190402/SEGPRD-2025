@@ -16,10 +16,4 @@ const requestDuration = new client.Histogram({
   buckets: [0.1, 0.5, 1, 2, 5],
 });
 
-// Expose metrics endpoint
-app.get("/metrics", async (req, res) => {
-  res.set("Content-Type", client.register.contentType);
-  res.end(await client.register.metrics());
-});
-
-module.exports = { httpRequests, requestDuration, deniedRequests };
+module.exports = { httpRequests, requestDuration };

@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
+const client = require("prom-client");
 require("dotenv").config();
 
 const { loginAttempts } = require("./metrics");
@@ -68,18 +69,21 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    loginAttempts.inc();
-    if (!username || !password)
+    if (!username || !password) {
+      loginAttempts.inc({ status: "failure" });
       return res.status(400).json({ message: "Missing fields" });
+    }
 
     const user = await User.findOne({ username });
-    if (!user)
+    if (!user) {
+      loginAttempts.inc({ status: "failure" });
       return res.status(401).json({ message: "Invalid username or password" });
-
+    }
     const validPass = await bcrypt.compare(password, user.password);
-    if (!validPass)
+    if (!validPass) {
+      loginAttempts.inc({ status: "failure" });
       return res.status(401).json({ message: "Invalid username or password" });
-
+    }
     // If MFA enabled, you can handle that here (simplified below)
     if (user.mfaEnabled) {
       return res
@@ -89,6 +93,7 @@ app.post("/login", async (req, res) => {
 
     const token = generateToken(user);
     res.json({ token });
+    loginAttempts.inc({ status: "success" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -164,19 +169,19 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1]; // Extract token after "Bearer"
 
   if (!token) {
-    jwtVerifications.inc({ status: "missing" });
+    jwtVerifications.inc({ result: "missing" });
     deniedRequests.inc({ reason: "unauthorized" });
     return res.status(401).json({ message: "Access token missing" });
   }
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
-      jwtVerifications.inc({ status: "invalid" });
+      jwtVerifications.inc({ result: "invalid" });
       deniedRequests.inc({ reason: "invalid_token" });
       return res.status(403).json({ message: "Invalid or expired token" });
     }
 
     // Attach user info from token payload to request object for use in routes
-    jwtVerifications.inc({ status: "valid" });
+    jwtVerifications.inc({ result: "valid" });
     req.user = user;
     next();
   });
@@ -195,6 +200,12 @@ app.get("/profile", authenticateToken, async (req, res) => {
   } catch {
     res.status(500).json({ message: "Server error" });
   }
+});
+
+// Expose metrics endpoint
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", client.register.contentType);
+  res.end(await client.register.metrics());
 });
 
 app.listen(PORT, () => {

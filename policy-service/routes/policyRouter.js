@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Policy = require("../models/Policy");
 
-const {
+/*const {
   policyChecks,
   accessDecisions,
   policyEvaluationDuration,
-} = require("./metrics");
+} = require("./metrics");*/
 
 router.post("/policy/evaluate", async (req, res) => {
   const { role, permission } = req.body;
