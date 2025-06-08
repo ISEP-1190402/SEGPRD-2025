@@ -87,7 +87,7 @@ services:
           memory: 512M
     networks:
       default:
-        ipv4_address: 172.18.0.5
+        ipv4_address: 172.18.0.10
 
   resource-service:
     image: node:18-alpine
