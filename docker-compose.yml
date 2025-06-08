@@ -85,6 +85,9 @@ services:
         limits:
           cpus: "0.5"
           memory: 512M
+    networks:
+      default:
+        ipv4_address: 172.18.0.5
 
   resource-service:
     image: node:18-alpine
@@ -143,6 +146,10 @@ services:
 networks:
   default:
     name: zta-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
 
 volumes:
   mongo-data:

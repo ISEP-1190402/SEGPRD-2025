@@ -95,7 +95,7 @@ end
 -- Send request to policy service
 local httpc = http.new()
 ngx.log(ngx.ERR, "Sending to policy service: role=", payload.role, " permission=", permission)
-local res, err = httpc:request_uri("http://172.18.0.3:3002/policy/evaluate", {
+local res, err = httpc:request_uri("http://172.18.0.5:3002/policy/evaluate", {
   method = "POST",
   body = cjson.encode({
     role = payload.role,
