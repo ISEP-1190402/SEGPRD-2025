@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "119a81d9-9309-4df5-bb2f-dcb563d4970b",
+		"name": "Resource Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20854756",
+		"_collection_link": "https://segprd-p2.postman.co/workspace/SEGPRD-P2~804ed5c1-dba8-4c61-b655-e861fbf21398/collection/45616189-119a81d9-9309-4df5-bb2f-dcb563d4970b?action=share&source=collection_link&creator=20854756"
+	},
+	"item": [
+		{
+			"name": "Materials",
+			"item": [
+				{
+					"name": "Paginated Materials - OK",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMxOGVmZjk3YWUzZjI2M2E4ZDhhMCIsInVzZXJuYW1lIjoicHJvZmVzc29yVGVzdCIsInJvbGUiOiJwcm9mZXNzb3IiLCJpYXQiOjE3NDkyMjc3NjMsImV4cCI6MTc0OTIzMTM2M30.BI_QkH_fsN0moR8iPOjwiMQySwnVdEuW97HDlKIm6IY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/materials?page=1&limit=5",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"materials"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Material - OK",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDVhNmNlNDYzZTE4YWQ2YWU3ODYwMiIsInVzZXJuYW1lIjoicHJvZmVzc29yVGVzdCIsInJvbGUiOiJwcm9mZXNzb3IiLCJpYXQiOjE3NDkzOTUxNTgsImV4cCI6MTc0OTM5ODc1OH0.YIPoN93rWGmJ1rjP54nagYrbMQ79Nc7dfkx9geYWoBk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Zero Trust Lesson\",\r\n  \"course\": \"SEG101\",\r\n  \"file\": \"zero_trust_intro.pdf\",\r\n  \"access\": [\"student\", \"professor\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/materials",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"materials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Material - NOK",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDFlNDU1OWVkYTI3YzEwOGY4YzAwYiIsInVzZXJuYW1lIjoiYWRtaW5UZXN0Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5MjIzMTMwLCJleHAiOjE3NDkyMjY3MzB9.RAfsWW0HQfN0FJAu9PfDBVxwfzDzx3cn6do-XGAJBp0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Zero Trust Lesson\",\r\n  \"course\": \"SEG101\",\r\n  \"file\": \"zero_trust_intro.pdf\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/materials",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"materials"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Grades",
+			"item": [
+				{
+					"name": "Grade",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMxOGVmZjk3YWUzZjI2M2E4ZDhhMCIsInVzZXJuYW1lIjoicHJvZmVzc29yVGVzdCIsInJvbGUiOiJwcm9mZXNzb3IiLCJpYXQiOjE3NDkyMjc3NjMsImV4cCI6MTc0OTIzMTM2M30.BI_QkH_fsN0moR8iPOjwiMQySwnVdEuW97HDlKIm6IY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/grades",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Grade - OK",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMxOGVmZjk3YWUzZjI2M2E4ZDhhMCIsInVzZXJuYW1lIjoicHJvZmVzc29yVGVzdCIsInJvbGUiOiJwcm9mZXNzb3IiLCJpYXQiOjE3NDkyMjc3NjMsImV4cCI6MTc0OTIzMTM2M30.BI_QkH_fsN0moR8iPOjwiMQySwnVdEuW97HDlKIm6IY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": \"stu001\",\r\n  \"course\": \"SEG101\",\r\n  \"grade\": 17\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/grades",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Grade - NOK",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"course\": \"SEG101\",\r\n  \"grade\": 17\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/grades",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"grades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Announcements",
+			"item": [
+				{
+					"name": "Announcements",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMwMTlkYjM5NzM2ZGZhYzQxYTI1YyIsInVzZXJuYW1lIjoic3R1ZGVudFRlc3QiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0OTIyMTgwNSwiZXhwIjoxNzQ5MjI1NDA1fQ.VxPoXyvKajghamFOz-vF8G-VkX_eEJv_jkSx0D72G4o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/announcements",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Announcement - OK",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMxYTVhZjk3YWUzZjI2M2E4ZDhhOCIsInVzZXJuYW1lIjoiYWRtaW5UZXN0Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5MjI4MTM3LCJleHAiOjE3NDkyMzE3Mzd9.qrfwa6rZ9mHAb-NnqhmZSv-VNSA9wrckXYBm8qDYCe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Welcome!\",\r\n  \"content\": \"Academic year starts on the 18th.\",\r\n  \"access\": [\"student\", \"professor\", \"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/announcements",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Announcement - NOK",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"content\": \"Academic year starts on the 18th.\",\r\n  \"access\": [\"student\", \"professor\", \"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/announcements",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Forms",
+			"item": [
+				{
+					"name": "Forms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMxYTVhZjk3YWUzZjI2M2E4ZDhhOCIsInVzZXJuYW1lIjoiYWRtaW5UZXN0Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5MjI4MTM3LCJleHAiOjE3NDkyMzE3Mzd9.qrfwa6rZ9mHAb-NnqhmZSv-VNSA9wrckXYBm8qDYCe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/forms",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"forms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Form - OK",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDMxYTMyZjk3YWUzZjI2M2E4ZDhhNCIsInVzZXJuYW1lIjoic3R1ZGVudFRlc3QiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0OTIyODA4OSwiZXhwIjoxNzQ5MjMxNjg5fQ.8sud_-a9qfidkyzmY0ZlXOg3D11EmVk6lUAowaqtfDM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Reimbursement Request\",\r\n  \"formUrl\": \"form_reimbursement.pdf\",\r\n  \"access\": [\"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/forms",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"forms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Form - NOK",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Reimbursement Request\",\r\n  \"access\": [\"admin\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RESOURCE_SERVICE_URL}}resources/forms",
+							"host": [
+								"{{RESOURCE_SERVICE_URL}}resources"
+							],
+							"path": [
+								"forms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "37b0a69d-ad6c-4cb9-bf99-5a8f0cd91e07",
+		"name": "Auth Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20854756",
+		"_collection_link": "https://segprd-p2.postman.co/workspace/SEGPRD-P2~804ed5c1-dba8-4c61-b655-e861fbf21398/collection/45616189-37b0a69d-ad6c-4cb9-bf99-5a8f0cd91e07?action=share&source=collection_link&creator=20854756"
+	},
+	"item": [
+		{
+			"name": "/register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"professorTest\",\r\n  \"password\": \"mypassword\",\r\n  \"role\": \"professor\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AUTH_SERVICE_URL}}register",
+					"host": [
+						"{{AUTH_SERVICE_URL}}register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"professorTest\",\r\n  \"password\": \"mypassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AUTH_SERVICE_URL}}login",
+					"host": [
+						"{{AUTH_SERVICE_URL}}login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN_AUTH}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{AUTH_SERVICE_URL}}profile?username=adminTest",
+					"host": [
+						"{{AUTH_SERVICE_URL}}profile"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "adminTest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/mfa/setup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2RkMDhkNjI3NDM2ZDA5Y2I3MGYyMSIsInVzZXJuYW1lIjoic3R1ZGVudFRlc3QiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0ODg4MTY2NywiZXhwIjoxNzQ4ODg1MjY3fQ.ESGm8qp31df8QboOoPFPwGdIkQjKpuP48hkUUis72Mw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"studentTest\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AUTH_SERVICE_URL}}mfa/setup",
+					"host": [
+						"{{AUTH_SERVICE_URL}}mfa"
+					],
+					"path": [
+						"setup"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "studentTest",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/mfa/verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"studentTest\",\r\n  \"token\": \"257633\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AUTH_SERVICE_URL}}mfa/verify",
+					"host": [
+						"{{AUTH_SERVICE_URL}}mfa"
+					],
+					"path": [
+						"verify"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "5de88c44-6b61-4ecc-bf6d-91e4ce25855b",
+		"name": "Policy Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20854756",
+		"_collection_link": "https://segprd-p2.postman.co/workspace/SEGPRD-P2~804ed5c1-dba8-4c61-b655-e861fbf21398/collection/45616189-5de88c44-6b61-4ecc-bf6d-91e4ce25855b?action=share&source=collection_link&creator=20854756"
+	},
+	"item": [
+		{
+			"name": "/policy/evaluate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"role\": \"student\",\r\n  \"permission\": \"view:material\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{POLICY_SERVICE_URL}}policy/evaluate",
+					"host": [
+						"{{POLICY_SERVICE_URL}}policy"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN_AUTH}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{POLICY_SERVICE_URL}}materials",
+					"host": [
+						"{{POLICY_SERVICE_URL}}materials"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
